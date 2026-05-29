@@ -1,71 +1,138 @@
 ## 🔍 What This Project Does
+Nova Bank provides personal loans across the **USA, UK, and Canada** — but its 
+portfolio carries a default rate of **21.82%**. The core challenge is finding the 
+right balance: approving too many high-risk loans leads to financial losses, while 
+being overly strict means turning away creditworthy customers.
 
-Nova Bank cung cấp các khoản vay cá nhân tại **USA, UK và Canada** — nhưng tỷ lệ nợ quá hạn lên đến **21.82%**. Project này trả lời 3 câu hỏi kinh doanh:
-
-1. **Ai có khả năng vỡ nợ?** → Phân tích 15 yếu tố rủi ro từ dữ liệu vay
-2. **Yếu tố nào quan trọng nhất?** → Xếp hạng predictors theo mức độ ảnh hưởng
-3. **Làm thế nào để ngăn chặn sớm?** → Xây dựng hệ thống early warning flag
-
-Pipeline hoàn chỉnh: **Python → SQL Server → Power BI dashboard 4 trang**.
+This project uses loan data to help Nova Bank understand who is likely to default, 
+why they default, and how lending decisions can be made more reliably.
 
 ---
 
 ## 💡 Key Results
 
+
 | Finding | Detail |
 |---|---|
-| **Top predictor** | `loan_grade` — Grade G có tỷ lệ default **98.4%** vs Grade A chỉ **10.0%** |
-| **Strongest gap** | `home_ownership` — Người thuê nhà default gấp **4×** người sở hữu nhà (31.6% vs 7.5%) |
-| **Income risk** | Thu nhập < $30K có tỷ lệ default **45.5%** |
-| **Prior default** | Có tiền sử default → rủi ro tăng **2.06×** |
-| **Early warning** | 37 borrowers đáp ứng 4 điều kiện rủi ro → **75.7%** default rate |
-| **No bias found** | USA / UK / Canada đều ~21.8% — chính sách cho vay đồng đều |
+| Top predictor | `loan_grade` — Grade G reaches **98.4%** default rate vs Grade A at **10.0%** |
+| Strongest gap | `home_ownership` — Renters default at **4×** the rate of homeowners (31.6% vs 7.5%) |
+| Income risk | Borrowers earning under $30K carry a **45.5%** default rate |
+| Prior default | A prior default on file increases risk by **2.06×** |
+| Early warning | 37 borrowers meet all 4 high-risk conditions → **75.7%** default rate |
+| No regional bias | USA / UK / Canada all sit at ~21.8% — lending policy is applied consistently |
 
 ---
 
 ## 🔄 Analysis Pipeline
 
-Data Ingestion       Load raw Excel (32,581 records · 37 features)
-↓
-Data Cleaning        Fix outlier ages · Group-median imputation
-↓
-Feature Engineering  Risk score · LTI/DTI tiers · Age/Income buckets · Early warning flag
-↓
-SQL Analysis         15 queries in SSMS covering portfolio health & borrower segmentation
-↓
-Power BI Dashboard   4-page interactive dashboard · 12 DAX measures · Cross-page filtering
-
-
----
+Data Ingestion       →   Load raw Excel (32,581 records · 37 features)
+Data Cleaning        →   Fix outlier ages · Group-median imputation for missing values
+Feature Engineering  →   Risk scoring · LTI/DTI tiers · Age/Income buckets · Early warning flag
+SQL Analysis         →   15 queries in SSMS covering portfolio health and borrower segmentation
+Power BI Dashboard   →   4-page interactive dashboard · 12 DAX measures · Cross-page filtering
 
 ## 📊 Power BI Dashboard
 
-### Preview
-![Dashboard Page 1](assets/dashboard_1.png)
+### Page 1 — Executive Overview
+![Executive Overview](<img width="1458" height="810" alt="Overview" src="https://github.com/user-attachments/assets/769039e7-2b29-413c-a515-01215cf3351b" />)
 
-Dashboard gồm **4 trang** phân tích:
+High-level view of the entire loan portfolio, designed for senior management and 
+executives who need a quick read on overall portfolio health and risk concentration.
 
-### 1. Executive Overview
-Tổng quan danh mục cho vay — KPIs, phân bổ rủi ro và so sánh giữa các quốc gia.
-- **Total Loans:** 33K · **Default Rate:** 21.82% · **Total Exposure:** $312M
-- Grade D–G chiếm **76% tổng defaults** dù chỉ chiếm 14% portfolio
-- LTI High + DTI High = **81.3% default rate** (vùng nguy hiểm nhất)
+- **Core KPIs:** Total Loans: 33K · Default Rate: 21.82% · Total Exposure: $312M · 
+  Default Exposure: $77M · Avg Interest Rate: 11.01% · Early Warning Count: 37
+- **Default Rate by Loan Grade:** A clear gradient from Grade A (10.0%) to Grade G 
+  (98.4%) — Grades D through G account for 76% of all defaults while representing 
+  only 14% of the portfolio
+- **Risk Tier Distribution:** 47.8% of borrowers fall under Medium Risk and 44.6% 
+  under High Risk — only 3.3% sit in the Low Risk tier
+- **Country Comparison:** USA, UK, and Canada all record ~21.8% default rates — 
+  no regional bias detected, confirming consistent underwriting standards across markets
+- **LTI × DTI Heatmap:** The intersection of High LTI and High DTI produces an 
+  81.3% default rate — the single most dangerous segment in the portfolio
 
-### 2. Borrower Profile
-Phân tích đặc điểm người vay — thu nhập, loại nhà ở, mục đích vay.
-- Debt Consolidation: **28.6%** vs Venture: **14.8%**
-- Thu nhập < $30K: **45.5%** default rate
-- Employment type: gap < 1.1pp — **không phải yếu tố dự báo**
+---
 
-### 3. Financial Risk Signals
-Tín hiệu rủi ro tài chính — LTI/DTI matrix, tiền sử tín dụng, lãi suất.
-- Prior default = Y: **37.8%** vs N: **18.4%** (uplift **2.06×**)
-- Delinquency count: yếu tố **weak predictor** (gap < 1.5pp)
+### Page 2 — Borrower Profile
 
-### 4. Deep Dive — Segment Intelligence
-Phân tích tổ hợp borrower nguy hiểm nhất và Decomposition Tree.
-- Grade E + Debt Consolidation + Full-time = **100% default rate**
-- Decomposition Tree drill 6 tầng: Country → Grade → Employment → Home → Income → Rate
+![Borrower Profile](<img width="1450" height="797" alt="Profile" src="https://github.com/user-attachments/assets/4ae81f90-bb1e-4ba6-bd13-ef5294f791ec" />)
+
+Borrower characteristics breakdown targeting loan officers and credit policy teams 
+who need to understand which demographic and financial profiles drive default risk.
+
+- **Default Rate by Loan Intent:** Debt Consolidation carries the highest default rate 
+  at 28.6%, followed by Medical (26.7%) and Home Improvement (26.1%). Venture loans 
+  are the safest at 14.8% — borrowers seeking growth capital tend to be more financially stable
+- **Home Ownership Impact:** Renters default at 31.6% versus 7.5% for homeowners — 
+  a 24.1 percentage-point gap that makes home ownership the single strongest 
+  non-grade predictor in the dataset
+- **Income Level:** Borrowers earning under $30K default at 45.5%. This drops 
+  sharply to 13.3% for the $60K–$100K group and 9.2% for those earning $100K–$200K
+- **Employment Type:** All four employment categories fall within 1.1 percentage 
+  points of each other (21.6%–22.7%) — employment type is not a meaningful predictor 
+  and should carry low weight in any credit scoring model
+- **Age Group:** The 20–25 age group is both the largest segment (15,352 borrowers) 
+  and carries the highest default rate (23.0%). Borrowers aged 60+ show an elevated 
+  rate of 26.6% despite very low volume
+- **Gender and Marital Status:** The maximum gap across all gender-marital combinations 
+  is under 3 percentage points — these demographic factors have no meaningful 
+  predictive power and should be excluded from scoring models to ensure fair lending
+
+---
+
+### Page 3 — Financial Risk Signals
+
+![Financial Risk Signals](<img width="1457" height="804" alt="Financial Risk Signals" src="https://github.com/user-attachments/assets/3bac438a-0f71-4eb0-871f-a3b44610e984" />)
+
+Financial ratio and credit history analysis targeting risk analysts and the credit 
+committee who evaluate structural risk factors beyond borrower demographics.
+
+- **Prior Default Uplift:** Borrowers with a prior default on file carry a 37.8% 
+  default rate versus 18.4% for clean-record borrowers — a 2.06× uplift. This 
+  single binary flag is one of the most reliable predictors in the dataset
+- **LTI × DTI Risk Matrix:** The combined effect of high leverage ratios is far 
+  more predictive than either ratio alone. Low LTI + Low DTI produces an 11–13% 
+  default rate, while High LTI + High DTI reaches 81.3%
+- **Scatter Plot by Grade:** Plotting average interest rate against average loan 
+  amount by grade reveals a clear risk cluster — Grades D through G sit in the 
+  upper-right quadrant (high rate, high amount, large bubble size) while Grades 
+  A and B cluster in the lower-left (low rate, low amount, small bubble)
+- **Past Delinquency Count:** Surprisingly, the number of past delinquencies has 
+  almost no relationship with current default outcomes — the default rate stays 
+  between 21% and 23% regardless of delinquency count. The binary prior-default 
+  flag is a far stronger signal than counting past incidents
+- **Credit History Length:** Borrowers with shorter credit histories (0–2 years) 
+  carry a slightly higher default rate (23.6%) which gradually falls to 20.6% 
+  at 6–10 years, suggesting that a longer credit track record provides modest 
+  but real protection
+
+---
+
+### Page 4 — Deep Dive / Segment Intelligence
+
+![Deep Dive](<img width="1462" height="817" alt="Depp Dive" src="https://github.com/user-attachments/assets/b18fc3e7-fe94-47d8-9249-82f7c7f5cc30" />)
+
+Granular segment analysis designed for data analysts and model development teams 
+who need to identify the specific borrower combinations that produce extreme outcomes.
+
+- **Top Riskiest Combinations:** Filtering to segments with at least 50 borrowers 
+  reveals the most dangerous combinations in the portfolio. Grade E + Debt 
+  Consolidation + Full-time employment produces a 100% default rate across 80 
+  borrowers. Grade E + Medical + Full-time reaches 97.2% across 106 borrowers. 
+  Grade D + Debt Consolidation + Full-time affects 346 borrowers at 91.9%
+- **Delta vs Portfolio Average:** Grades A and B sit 11.9pp and 5.5pp below the 
+  21.82% portfolio average respectively, confirming their safe status. Grade G 
+  sits 76.6pp above average — nearly four times the portfolio default rate
+- **Decomposition Tree:** Starting from the 21.82% portfolio default rate, 
+  drilling by Country → Grade → Employment → Home Ownership → Income Group 
+  → Interest Rate uncovers extreme pockets. The path USA → Grade D → 
+  Self-employed → RENT → income $100K–$200K → interest rate ~15% produces 
+  a 100% default rate — a counter-intuitive finding showing that even 
+  higher-income borrowers in poor structural conditions carry extreme risk
+- **Safe Zone vs Risk Zone:** Borrowers meeting Grade A–B + income above $60K 
+  + mortgage or owned home average around 8% default rate. Borrowers in Grade 
+  D–G + renting + DTI above 0.4 average around 68% — an 8× difference between 
+  the safest and riskiest segments in the portfolio
 
 ---
 
@@ -73,65 +140,60 @@ Phân tích tổ hợp borrower nguy hiểm nhất và Decomposition Tree.
 
 | Area | What I Did |
 |---|---|
-| **Data Cleaning** | Outlier treatment, group-median imputation, consistency checks |
-| **Feature Engineering** | Risk scoring model, tier bucketing, composite early warning flag |
-| **SQL Analysis** | 15 business queries in SSMS covering 8 analytical dimensions |
-| **DAX & Power BI** | 12 measures, calculated columns, cross-page slicers, conditional formatting |
-| **Business Thinking** | Translated findings into 5 actionable lending policy recommendations |
+| Data Cleaning | Outlier treatment, group-median imputation, data consistency checks |
+| Feature Engineering | Composite risk scoring model, tier bucketing, early warning flag |
+| SQL Analysis | 15 business queries in SSMS covering 8 analytical dimensions |
+| DAX & Power BI | 12 DAX measures, calculated columns, cross-page slicers, conditional formatting |
+| Business Thinking | Translated analytical findings into 5 actionable lending policy recommendations |
 
 ---
 
 ## 📁 Project Structure
 
 Nova-Bank-Credit-Risk/
-├── assets/              # Dashboard screenshots
+├── assets/                           # Dashboard screenshots
 ├── data/
 │   └── credit_risk_cleaned.csv
-
 ├── notebook/
-│   └── 1.py   # Python cleaning & feature engineering pipeline
-
+│   └── NovaBank_Pipeline.ipynb
 ├── sql/
-│   └── SQLQuery1.sql    # 15 analytical queries
-
+│   └── SQLQuery1.sql
 ├── dashboard/
 │   └── Credit_risk.pbix
-
 ├── report/
 │   └── NovaBank_CreditRisk_Report.docx
-
-└── README.md
-
----
+└── README.mdc
 
 ## 📂 Dataset
-
-**Credit Risk Dataset** — 32,581 loan records · 37 features
 
 | | |
 |---|---|
 | Records | 32,581 personal loans |
-| Features | 37 (demographic, financial, credit history) |
+| Features | 37 (demographic, financial, and credit history) |
 | Target | `loan_status` — 0: Non-default · 1: Default |
 | Countries | USA · UK · Canada |
 | Default Rate | 21.82% |
 
 ---
 
-## ⚙️ How to Run
+## How to Run
 
 ```bash
-# 1. Clone repo
+# 1. Clone the repository
 git clone https://github.com/your-username/Nova-Bank-Credit-Risk.git
 
 # 2. Install dependencies
-pip install pandas numpy sqlalchemy pyodbc openpyxl
+pip install pandas numpy sqlalchemy pyodbc openpyxl jupyter
 
-# 3. Run Python pipeline
-python notebook/1.py
+# 3. Run the Python pipeline
+jupyter notebook notebook/NovaBank_Pipeline.ipynb
 
-# 4. Run SQL queries in SSMS
-# Open sql/SQLQuery1.sql → Execute against NovaBank_Risk database
+# 4. Execute SQL queries in SSMS
+# Open sql/SQLQuery1.sql and run against the NovaBank_Risk database
 
-# 5. Open dashboard
+# 5. Open the Power BI dashboard
 # Open dashboard/Credit_risk.pbix in Power BI Desktop
+```
+
+---
+
