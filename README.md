@@ -82,18 +82,24 @@ Phân tích tổ hợp borrower nguy hiểm nhất và Decomposition Tree.
 ---
 
 ## 📁 Project Structure
+
 Nova-Bank-Credit-Risk/
 ├── assets/              # Dashboard screenshots
 ├── data/
 │   └── credit_risk_cleaned.csv
+
 ├── notebook/
-│   └── 1.py             # Python cleaning & feature engineering pipeline
+│   └── 1.py   # Python cleaning & feature engineering pipeline
+
 ├── sql/
 │   └── SQLQuery1.sql    # 15 analytical queries
+
 ├── dashboard/
 │   └── Credit_risk.pbix
+
 ├── report/
 │   └── NovaBank_CreditRisk_Report.docx
+
 └── README.md
 
 ---
