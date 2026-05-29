@@ -34,7 +34,7 @@ Power BI Dashboard   →   4-page interactive dashboard · 12 DAX measures · Cr
 ## 📊 Power BI Dashboard
 
 ### Page 1 — Executive Overview
-![Executive Overview](<img width="1458" height="810" alt="Overview" src="https://github.com/user-attachments/assets/769039e7-2b29-413c-a515-01215cf3351b" />)
+![Executive Overview](https://github.com/minhduc342005/Nova-Bank-Credit-Risk/blob/main/assets/Overview.PNG)
 
 High-level view of the entire loan portfolio, designed for senior management and 
 executives who need a quick read on overall portfolio health and risk concentration.
@@ -55,7 +55,7 @@ executives who need a quick read on overall portfolio health and risk concentrat
 
 ### Page 2 — Borrower Profile
 
-![Borrower Profile](<img width="1450" height="797" alt="Profile" src="https://github.com/user-attachments/assets/4ae81f90-bb1e-4ba6-bd13-ef5294f791ec" />)
+![Borrower Profile](https://github.com/minhduc342005/Nova-Bank-Credit-Risk/blob/main/assets/Profile.PNG)
 
 Borrower characteristics breakdown targeting loan officers and credit policy teams 
 who need to understand which demographic and financial profiles drive default risk.
