@@ -82,7 +82,7 @@ who need to understand which demographic and financial profiles drive default ri
 
 ### Page 3 — Financial Risk Signals
 
-![Financial Risk Signals](<img width="1457" height="804" alt="Financial Risk Signals" src="https://github.com/user-attachments/assets/3bac438a-0f71-4eb0-871f-a3b44610e984" />)
+![Financial Risk Signals](https://github.com/minhduc342005/Nova-Bank-Credit-Risk/blob/main/assets/Financial%20Risk%20Signals.PNG)
 
 Financial ratio and credit history analysis targeting risk analysts and the credit 
 committee who evaluate structural risk factors beyond borrower demographics.
@@ -110,7 +110,7 @@ committee who evaluate structural risk factors beyond borrower demographics.
 
 ### Page 4 — Deep Dive / Segment Intelligence
 
-![Deep Dive](<img width="1462" height="817" alt="Depp Dive" src="https://github.com/user-attachments/assets/b18fc3e7-fe94-47d8-9249-82f7c7f5cc30" />)
+![Deep Dive](https://github.com/minhduc342005/Nova-Bank-Credit-Risk/blob/main/assets/Depp%20Dive.PNG)
 
 Granular segment analysis designed for data analysts and model development teams 
 who need to identify the specific borrower combinations that produce extreme outcomes.
@@ -149,7 +149,7 @@ who need to identify the specific borrower combinations that produce extreme out
 ---
 
 ## 📁 Project Structure
-
+```
 Nova-Bank-Credit-Risk/
 ├── assets/                           # Dashboard screenshots
 ├── data/
@@ -162,7 +162,8 @@ Nova-Bank-Credit-Risk/
 │   └── Credit_risk.pbix
 ├── report/
 │   └── NovaBank_CreditRisk_Report.docx
-└── README.mdc
+└── README.md
+```
 
 ## 📂 Dataset
 
